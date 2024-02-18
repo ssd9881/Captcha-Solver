@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Captcha Resolver</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script>
+    function CopyToClipboard(containerid) {
+if (document.selection) {
+  var range = document.body.createTextRange();
+  range.moveToElementText(document.getElementById(containerid));
+  range.select().createTextRange();
+  document.execCommand("copy");
+} else if (window.getSelection) {
+  var range = document.createRange();
+  range.selectNode(document.getElementById(containerid));
+  window.getSelection().addRange(range);
+  document.execCommand("copy");
+  alert("Text has been copied")
+}
+    }</script>
+  <style>
+    
+    html,
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: "Raleway", sans-serif
+    }
+    .bg {
+  background-image: url('../static/istockphoto-1398334633-170667a.jpg');
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  /* background-position: center; */
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+  </style>
+</head>
+
+<body class="w3-light-grey">
+  <div class="w3-container w3-padding-16 w3-center w3-teal">
+  <div style="display: inline-block;">
+    <h5 style="align-items: left;">Hi {{username}}&ensp;<a href="{{url_for('logout')}}">Logout</a></h5><h1 style="float:right"><b>Captcha Tracking Bot - B2B</b></h1>
+    
+  </div>
+  
+  </div>
+  <div class="w3-row">
+    <div class="w3-container w3-quarter">
+    </div>
+    <div class="w3-container  w3-margin-top w3-half">
+      
+      <h3>Upload Captcha Image</h3>
+      <form id="image-form" class="" action="/process_image" method="POST" enctype="multipart/form-data">
+        <input class="w3-input w3-border" type="file" name="file" accept="image/*">
+        <br>
+        <h4>Select The Model Type</h4>
+        <input class="w3-radio" type="radio" name="type" value="gst">
+        <label>Model Type 1</label>
+        <input class="w3-radio" type="radio" name="type" value="tds">
+        <label>Model Type 2</label>
+        <input class="w3-radio" type="radio" name="type" value="sbi">
+        <label>Model Type 3</label>
+        <p class="w3-center"><input class="w3-button w3-margin-top w3-large w3-border w3-green" type="submit"
+            value="Upload"></p>
+      </form>
+      
+      
+      <br>
+      {% if result %}
+
+      <div class="w3-card w3-margin-top">
+        <img src="{{ url_for('static', filename='media/' + result['img']) }}" style="width:100%">
+        <div class="w3-container w3-border">
+          <h2>Extracted Code:<div id="div1"><b> {{ result['result'] }}</b></div></h2>
+          <h1>{{ result['user'] }}</h1>
+        </div>
+        <button id="button1" onclick="CopyToClipboard('div1')">Click to copy</button>
+<br /><br />
+
+
+      </div>
+
+      {% endif %}
+    </div>
+    <div class="w3-container w3-quarter">
+    </div>
+  </div>
+</body>
+
+</html>
